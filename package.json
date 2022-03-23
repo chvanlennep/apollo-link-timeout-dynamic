@@ -1,6 +1,6 @@
 {
   "name": "apollo-link-timeout-dynamic",
-  "version": "4.0.0",
+  "version": "1.0.0",
   "description": "Abort requests that take longer than a specified timeout period, with dynamic control",
   "peerDependencies": {
     "@apollo/client": "^3.0.0"
