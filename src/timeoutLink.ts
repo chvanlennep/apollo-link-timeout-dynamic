@@ -12,7 +12,7 @@ const DEFAULT_TIMEOUT: number = 15000;
 type TimeoutArgs = {
   timeout: number;
   statusCode?: number;
-  disableTimeoutCallback?: () => boolean;
+  shouldDisableTimeout?: () => boolean;
 };
 
 /**
@@ -21,13 +21,13 @@ type TimeoutArgs = {
 export default class TimeoutLink extends ApolloLink {
   private timeout: number;
   private statusCode?: number;
-  private disableTimeoutCallback?: () => boolean;
+  private shouldDisableTimeout?: () => boolean;
 
-  constructor({ timeout, statusCode, disableTimeoutCallback }: TimeoutArgs) {
+  constructor({ timeout, statusCode, shouldDisableTimeout }: TimeoutArgs) {
     super();
     this.timeout = timeout || DEFAULT_TIMEOUT;
     this.statusCode = statusCode;
-    this.disableTimeoutCallback = disableTimeoutCallback;
+    this.shouldDisableTimeout = shouldDisableTimeout;
   }
 
   public request(operation: Operation, forward: NextLink) {
@@ -55,8 +55,8 @@ export default class TimeoutLink extends ApolloLink {
 
     let disableTimeout = false;
 
-    if (this.disableTimeoutCallback) {
-      disableTimeout = this.disableTimeoutCallback();
+    if (this.shouldDisableTimeout) {
+      disableTimeout = this.shouldDisableTimeout();
     }
 
     if (
